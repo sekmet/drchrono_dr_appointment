@@ -1,0 +1,99 @@
+<div class="card mb-2">
+    <div class="card-header" style="background-color: {% if instance.start_treatment_timestamp %}#ffab00{% elif instance.is_queue %}#00b8d4{% elif instance.is_appointment%}#64dd17{% endif %};">
+        <div class="row">
+            <div class="col-2 mr-auto"><h5>{{ instance.name }}</h5></div>
+            <div class="col-3 ml-auto"><h5>{{ instance.estimated_start_timestamp | timeuntil}}</h5></div>
+        </div>
+    </div>
+    <div class="card-block" style="background-color: {% if instance.start_treatment_timestamp %}#ffe57f{% elif instance.is_queue %}#84ffff{% elif instance.is_appointment%}#ccff90{% endif %};">
+        <p class="card-text ml-1 mb-1">Sympton: {{ instance.sympton }}</p>
+
+    {% if instance.is_queue %}
+        <div class="row">
+            <div class="col-4">
+
+                {% if 'http' in instance.drchrono_appointment_page %}
+                    <a href="{{ instance.drchrono_appointment_page }}" class="btn btn-info ml-1 mb-1">Appointment detail in Drchrono</a>
+                {% else %}
+                    <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                        <input type="hidden" name="action" value="move_to_next">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary'>Move to next</button>
+                    </form>
+                {% endif %}
+                <form class="ml-1 mb-1" method='POST'> {% csrf_token %}
+                    <input type="hidden" name="action" value="send_email_notification">
+                    <input type="hidden" name="id" value={{ instance.id }}>
+                    <button type='submit' class='btn btn-warning mx-auto'>Notify Patient</button>
+                </form>
+
+
+            </div>
+            <div class="col-2 ml-auto">
+                {% if 'http' in instance.drchrono_appointment_page %}
+                    <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                            <input type="hidden" name="action" value="finish_treatment">
+                            <input type="hidden" name="id" value={{ instance.id }}>
+                            <button type='submit' class='btn btn-primary mx-auto'>Finish</button>
+                    </form>
+                {% else %}
+                    <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                        <input type="hidden" name="action" value="start_treatment">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary'>Start</button>
+                    </form>
+
+                {% endif %}
+                <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                        <input type="hidden" name="action" value="cancel_treatment">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary mx-auto'>Cancel</button>
+                </form>
+            </div>
+
+
+            </div>
+
+        {% endif %}
+
+        {% if instance.is_appointment %}
+        <div class="row">
+            <div class="col-4">
+
+                {% if 'http' in instance.drchrono_appointment_page %}
+                    <a href="{{ instance.drchrono_appointment_page }}" class="btn btn-info ml-1 mb-1">Appointment detail in Drchrono</a>
+                {% endif %}
+                <form class="ml-1 mb-1" method='POST'> {% csrf_token %}
+                    <input type="hidden" name="action" value="send_email_notification">
+                    <input type="hidden" name="id" value={{ instance.id }}>
+                    <button type='submit' class='btn btn-warning mx-auto'>Notify Patient</button>
+                </form>
+                <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                        <input type="hidden" name="action" value="cancel_treatment">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary mx-auto'>Cancel</button>
+                </form>
+            </div>
+
+            <div class="col-2 ml-auto">
+                <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                    <input type="hidden" name="action" value="start_treatment">
+                    <input type="hidden" name="id" value={{ instance.id }}>
+                    <button type='submit' class='btn btn-primary'>Start</button>
+                </form>
+
+                <form class="ml-1 mb-1" method='POST' > {% csrf_token %}
+                        <input type="hidden" name="action" value="finish_treatment">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary mx-auto'>Finish</button>
+                </form>
+
+
+            </div>
+
+            </div>
+
+        {% endif %}
+
+  </div>
+</div>

@@ -1,0 +1,69 @@
+{% url 'home' as url_home%}
+{% url 'login' as url_login%}
+{% url 'register' as url_register%}
+{% url 'logout' as url_logout%}
+
+{% url 'queue' as url_queue%}
+{% url 'appointments' as url_appointments %}
+{% url 'social:oauth' as url_oauth%}
+
+{% url 'contact' as url_contact %}
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+<div class="container">
+  <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="http://www.activemindsglobal.com/wp-content/uploads/Cardio-Heart.jpg" width="50" height="50" class="d-inline-block align-top" alt="">
+      {% if brand_name %} {{ brand_name }} {% else %} Dr-appointment {% endif %}
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="col-2 nav-item {% if request.path == url_home %}active{% endif %}">
+        <a class="nav-link" href="{{ url_home}}">Home</a>
+      </li>
+    {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+            <li class="col-2 nav-item {% if request.path == url_queue %}active{% endif %}">
+                <a class="nav-link" href="{{ url_queue }}">Queue</a>
+            </li>
+            <li class="col-2 nav-item {% if request.path == url_appointments %}active{% endif %}">
+                <a class="nav-link" href="{{ url_appointments }}">Appointment Requests</a>
+            </li>
+            <li class="col-2 nav-item {% if request.path == url_oauth %}active{% endif %}">
+                <a class="nav-link" href="{{ url_oauth }}">Oauth</a>
+            </li>
+        {% else %}
+
+            <li class="col-2 nav-item {% if request.path == url_contact %}active{% endif %}">
+                <a class="nav-link" href="{{ url_contact }}">Contact</a>
+            </li>
+        {% endif %}
+
+
+        <li class="col-2  ml-1 nav-item {% if request.path == url_logout %}active{% endif %}">
+            <a class="nav-link" href="{{ url_logout }}">Logout</a>
+        </li>
+        <li class="col-1  ml-1 nav-item ">
+            <h6 class="nav-link text-white"> Hi, {{ user.username }}</h6>
+        </li>
+
+    {% else %}
+      <li class="col-2 mx-auto nav-item {% if request.path == url_login %}active{% endif %}">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+        <li class="col-2 nav-item {% if request.path == url_register%}active{% endif %}">
+        <a class="nav-link" href="{% url 'register' %}">Register</a>
+      </li>
+    {% endif %}
+
+    </ul>
+
+  </div>
+</div>
+</nav>

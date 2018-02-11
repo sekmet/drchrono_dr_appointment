@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+<title>Home Page Template</title>
+{#    context = {'page_name': "home",#}
+{#               'queue_form':JoinQueueForm(),#}
+{#               'appointment_form':AppointmentForm(),#}
+{#               'queue_tail':get_queue_tail_timestamp(),#}
+{#               'queue_user_start_timestamp':get_queue_tail_timestamp()(request),#}
+{#               'appointment_scheduled_timestamp':get_appointment_user_scheduled_time(request)#}
+{#               }#}
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col">
+        <h4>Walk-in is welcome, current queue length is:</h4><h4 class="text-info"> {{ queue_tail | timeuntil }}</h4><br>
+        {% if queue_user_start_timestamp%}
+            <h4>Hi {{ user.name }}, you are in the queue now! Estimated waiting time length is:</h4>
+            <h4 class="text-info"> {{ queue_user_start_timestamp | timeuntil }}</h4><br><br>
+        {% endif %}
+        {% if appointment_scheduled_timestamp%}
+            <h4>Hi {{ user.name }}, you have an appoiintment! Estimated waiting time length is:</h4>
+            <h4 class="text-info"> {{ appointment_scheduled_timestamp | timeuntil }}</h4>
+        {% endif %}
+
+        {% if not user.is_superuser %}
+            <form method='POST' id="home-join-queue"> {% csrf_token %}
+                {{queue_form}}
+
+              <button type='submit' class='btn btn-primary'>Join queue now</button>
+            </form>
+            <br>
+            <form method='POST' id="home-make-appointment"> {% csrf_token %}
+                {{ appointment_form }}
+                <button type='submit' class='btn btn-primary'>Make an appointment</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('#home-make-appointment').on('submit', function(event){
+        event.preventDefault();
+        if(!$('#sympton-appointment').val()){
+            alert('sympton should not be empty');
+            return true;
+        }
+        if(!$('#time-to-visit').val()){
+            alert('time to visit should not be empty');
+            return true;
+        }
+        var data={'appointmentType':'appointment',
+        'sympton':$('#sympton-appointment').val(),
+            'time-to-visit':$('#time-to-visit').val()
+        };
+
+        console.log($("[name=csrfmiddlewaretoken]").val());
+        $.ajax({
+            type:"POST",
+            url:"{% url 'queue' %}",
+            data:data,
+            dataType:'json',
+            headers:{'X-CSRFToken':$("[name=csrfmiddlewaretoken]").val()},
+            success: function(r){
+                alert('Appointment request sent successfully!');
+            },
+            error: function(r){
+                console.log(r)
+                window.location = "{% url 'login' %}";
+            }
+
+        });
+    });
+
+    $('#home-join-queue').on('submit', function(event){
+        event.preventDefault();
+        if(!$('#sympton-queue').val()){
+            alert('sympton should not be empty');
+            return true;
+        }
+
+        data={'appointmentType':'queue',
+        'sympton':$('#sympton-queue').val()
+        };
+
+        $.ajax({
+            type:"POST",
+            url:"{% url 'queue' %}",
+            data:data,
+            dataType:'json',
+            headers:{'X-CSRFToken':$("[name=csrfmiddlewaretoken]").val()},
+            success: function(r){
+                alert('Join queue successfully!');
+            },
+            error: function(r){
+                console.log(r);
+                window.location = "{% url 'login' %}";
+            }
+        });
+    });
+
+});
+
+</script>
+{% endblock scripts %}

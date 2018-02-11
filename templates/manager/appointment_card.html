@@ -1,0 +1,32 @@
+<div class="card mb-2">
+    <div class="card-header" style="background-color: #64dd17;">
+        <div class="row">
+            <div class="col-2 mr-auto"><h5>{{ instance.name }}</h5></div>
+        </div>
+    </div>
+    <div class="card-block" style="background-color:#ccff90;">
+        <div class="row">
+            <div class="col-8 mr-auto">
+                <p class="card-text ml-1 mb-1 "><strong>Sympton:</strong> {{ instance.sympton }}</p>
+                <p class="card-text ml-1 mb-1 "><strong>Request Details:</strong> {{ instance.appointment_data }}</p>
+            </div>
+            <div class="col-2 ml-auto">
+                <form method='POST' class="mt-1 ml-1 mb-1"> {% csrf_token %}
+                        <input type="hidden" name="action" value="confirm-of-appointment">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary mx-auto'>Confirm</button>
+                </form>
+                <form method='POST' class="ml-1 mb-1"> {% csrf_token %}
+                        <input type="hidden" name="action" value="reject">
+                        <input type="hidden" name="id" value={{ instance.id }}>
+                        <button type='submit' class='btn btn-primary mx-auto'>Reject</button>
+                </form>
+            </div>
+
+        </div>
+
+
+
+
+  </div>
+</div>

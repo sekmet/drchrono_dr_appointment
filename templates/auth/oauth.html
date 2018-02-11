@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+<title>Home Page Template</title>
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col">
+    {{ isOauthed }}
+    {% if isOauthed %}
+        <h1>Your app is already authenticated by drchrono.</h1>
+    <form method='POST' > {% csrf_token %}
+            <button type='submit' class='btn btn-primary mx-auto'>Refresh Authentication Token</button>
+    </form>
+    {% else %}
+        <h1>Please contact Admin to get authentication from drchrono.</h1>
+        <a href="https://drchrono.com/o/authorize/?redirect_uri=http://localhost:8000/oauth/&response_type=code&client_id=R2ga28omgKohk8rXbIeOv7OZvruF9Lyi84QDEMzj">Authenticate!</a>
+
+    {% endif %}
+
+    </div>
+</div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+<title>Queue Page Template</title>
+{% block content %}
+    <div class="container">
+        {% for obj in object_list %}
+        <div class="row">
+                <div class="col">
+                    {% include 'manager/queue_card.html' with instance=obj%}
+                </div>
+
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
