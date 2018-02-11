@@ -120,20 +120,20 @@ class RegisterForm(forms.Form):
         return  data
 
 class JoinQueueForm(forms.Form):
-    sympton = forms.CharField(widget= forms.TextInput(
+    symptoms = forms.CharField(widget= forms.TextInput(
         attrs={
             "class": "form-control",
             "id" :"sympton-queue",
-            "placeholder": "Please explain your sympton"}
+            "placeholder": "Please explain your symptoms"}
     ))
 
 
 class AppointmentForm(forms.Form):
-    sympton = forms.CharField( widget= forms.TextInput(
+    symptoms = forms.CharField( widget= forms.TextInput(
         attrs={
             "class": "form-control",
             "id" :"sympton-appointment",
-            "placeholder": "Please explain your sympton"}
+            "placeholder": "Please explain your symptoms"}
     ))
     time = forms.DateTimeField(widget=forms.DateTimeInput(
             attrs={
