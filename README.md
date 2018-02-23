@@ -39,31 +39,5 @@ Then, run the following commands:
 $ pip install -r requirements.txt
 $ python manage.py runserver
 ```
-## Screenshots of the system
-
-#### Anonymous user
-home page:
-![anonymous_home](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/anonymous/home.PNG)  
-
-login page:
-![anonymous_login](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/anonymous/login.PNG)
-
-register page: all registrations are stored in Drchrono
-![anonymous_register](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/anonymous/register.PNG)  
-
-#### Patient
-home page: according to patient's status, he/she could see information like `queue length`, `waiting time in the queue`, and `appointment waiting time`.
-![patients_home](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/patients/homePNG.PNG)  
-
-#### Doctor
-queue page: `Yellow` card represents patient under treatment, `blue` card represents patients in the queue, `green` card represents appointment. Doctor can do actions including `sending email notification`, `start treatment`, `go to Drchrono appointment page`, `move patient to the next position of the queue`, `cancel treatment`, and `finish treatment`.
-![doctor_queue](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/doctors/queue.PNG)  
-
-appointment requests page: `confirm` means making an appointment in Drchrono. `Reject` means delete this appointment info from local database.
-![appointment_requests](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/doctors/appointment_requests.PNG) 
-
-oauth page: `authenticate` tag can be seen when `this app` is not authenticated from Drchrono. `refresh auth token` can refresh authentication from Drchrono.
-![oauth](https://github.com/xujingyapatrick/drchrono_dr_appointment/blob/master/figures/doctors/oauth.PNG) 
-
 
 
